@@ -1,0 +1,485 @@
+Title: charset-normalizer
+License: MIT
+Source: https://github.com/jawah/charset_normalizer
+Attribution: licenses/charset-normalizer/LICENSE 
+
+Title: idna
+License: BSD-3-Clause
+Source: https://github.com/kjd/idna
+Attribution: licenses/idna/LICENSE.md 
+
+Title: libexpat
+License: MIT
+Source: https://github.com/libexpat/libexpat
+Attribution: licenses/libexpat/COPYING 
+
+Title: libffi
+License: MIT
+Source: https://github.com/libffi/libffi
+Attribution: licenses/libffi/LICENSE 
+
+Title: libmpv
+License: GPL-3.0
+Source: https://github.com/zhongfly/mpv-winbuild/releases
+Attribution: licenses/libmpv/COPYING 
+
+Title: MediaInfoLib
+License: BSD-2-Clause
+Source: https://github.com/MediaArea/MediaInfoLib
+Attribution: licenses/MediaInfoLib/LICENSE 
+
+Title: openssl
+License: Apache-2.0
+Source: https://github.com/openssl/openssl
+Attribution: licenses/openssl/LICENSE.txt licenses/openssl/AUTHORS.md 
+
+Title: Pillow
+License: MIT-CMU
+Source: https://github.com/python-pillow/Pillow
+Attribution: licenses/Pillow/LICENSE 
+
+Title: psutil
+License: BSD-3-Clause
+Source: https://github.com/giampaolo/psutil
+Attribution: licenses/psutil/LICENSE 
+
+Title: pymediainfo
+License: MIT
+Source: https://github.com/sbraz/pymediainfo
+Attribution: licenses/pymediainfo/LICENSE licenses/pymediainfo/AUTHORS 
+
+Title: Python
+License: PSF-2.0
+Source: https://www.python.org
+Attribution: licenses/Python/LICENSE.txt 
+
+Title: pystray
+License: LGPL-3.0
+Source: https://github.com/moses-palmer/pystray
+Attribution: licenses/pystray/COPYING.LGPL 
+
+Title: python-certifi
+License: MPL-2.0
+Source: https://github.com/certifi/python-certifi
+Attribution: licenses/python-certifi/LICENSE 
+
+Title: python-mpv
+License: GPL-2.0
+Source: https://github.com/jaseg/python-mpv
+Attribution: licenses/python-mpv/LICENSE.GPL 
+
+Title: requests
+License: Apache-2.0
+Source: https://github.com/psf/requests
+Attribution: licenses/requests/LICENSE licenses/requests/NOTICE licenses/requests/AUTHORS.rst 
+
+Title: six
+License: MIT
+Source: https://github.com/benjaminp/six
+Attribution: licenses/six/LICENSE 
+
+Title: tcltk
+License: BSD-type
+Source: https://github.com/tcltk/tk
+Attribution: licenses/tcltk/license.terms 
+
+Title: urllib3
+License: MIT
+Source: https://github.com/urllib3/urllib3
+Attribution: licenses/urllib3/LICENSE.txt 
+
+Title: zlib
+License: zlib
+Source: https://github.com/madler/zlib
+Attribution: licenses/zlib/LICENSE 
+
+Title: amf-headers
+License: MIT
+Source: https://github.com/GPUOpen-LibrariesAndSDKs/AMF
+Attribution: licenses/amf-headers/LICENSE.txt 
+
+Title: ANGLE
+License: BSD-3-Clause
+Source: https://github.com/google/angle
+Attribution: licenses/ANGLE/LICENSE licenses/ANGLE/AUTHORS 
+
+Title: aom
+License: BSD-2-Clause
+Source: https://aomedia.googlesource.com/aom
+Attribution: licenses/aom/LICENSE licenses/aom/AUTHORS 
+
+Title: avisynth-headers
+License: GPL-2.0
+Source: https://github.com/AviSynth/AviSynthPlus
+Attribution: licenses/avisynth-headers/COPYING 
+
+Title: bzip2
+License: bzip2
+Source: https://gitlab.com/bzip2/bzip2
+Attribution: licenses/bzip2/COPYING licenses/bzip2/AUTHORS 
+
+Title: dav1d
+License: BSD-2-Clause
+Source: https://code.videolan.org/videolan/dav1d
+Attribution: licenses/dav1d/COPYING 
+
+Title: davs2
+License: GPL-2.0
+Source: https://github.com/pkuvcl/davs2
+Attribution: licenses/davs2/COPYING 
+
+Title: FFmpeg
+License: GPL-3.0
+Source: https://github.com/FFmpeg/FFmpeg
+Attribution: licenses/FFmpeg/COPYING.GPLv3 
+
+Title: fontconfig
+License: MIT
+Source: https://gitlab.freedesktop.org/fontconfig/fontconfig
+Attribution: licenses/fontconfig/COPYING licenses/fontconfig/AUTHORS 
+
+Title: freetype2
+License: FreeType
+Source: https://github.com/freetype/freetype
+Attribution: licenses/freetype2/LICENSE.TXT 
+
+Title: fribidi
+License: LGPL-2.1
+Source: https://github.com/fribidi/fribidi
+Attribution: licenses/fribidi/COPYING licenses/fribidi/AUTHORS 
+
+Title: harfbuzz
+License: MIT
+Source: https://github.com/harfbuzz/harfbuzz
+Attribution: licenses/harfbuzz/COPYING licenses/harfbuzz/AUTHORS 
+
+Title: lame
+License: GPL-2.0
+Source: https://gitlab.com/shinchiro/lame
+Attribution: licenses/lame/COPYING 
+
+Title: lcms2
+License: MIT
+Source: https://github.com/mm2/Little-CMS
+Attribution: licenses/lcms2/LICENSE licenses/lcms2/AUTHORS 
+
+Title: libarchive
+License: BSD-2-Clause
+Source: https://github.com/libarchive/libarchive
+Attribution: licenses/libarchive/COPYING 
+
+Title: libaribcaption
+License: MIT
+Source: https://github.com/xqq/libaribcaption
+Attribution: licenses/libaribcaption/LICENSE 
+
+Title: libass
+License: ISC
+Source: https://github.com/libass/libass
+Attribution: licenses/libass/COPYING 
+
+Title: libbluray
+License: LGPL-2.1
+Source: https://code.videolan.org/videolan/libbluray
+Attribution: licenses/libbluray/COPYING 
+
+Title: libbs2b
+License: MIT
+Source: https://github.com/alexmarsev/libbs2b
+Attribution: licenses/libbs2b/COPYING licenses/libbs2b/AUTHORS 
+
+Title: libdvdcss
+License: GPL-2.0
+Source: https://code.videolan.org/videolan/libdvdcss
+Attribution: licenses/libdvdcss/COPYING licenses/libdvdcss/AUTHORS 
+
+Title: libdvdnav
+License: GPL-2.0
+Source: https://code.videolan.org/videolan/libdvdnav
+Attribution: licenses/libdvdnav/COPYING licenses/libdvdnav/AUTHORS 
+
+Title: libdvdread
+License: GPL-2.0
+Source: https://code.videolan.org/videolan/libdvdread
+Attribution: licenses/libdvdread/COPYING licenses/libdvdread/AUTHORS 
+
+Title: libjpeg
+License: IJG
+Source: https://github.com/libjpeg-turbo/libjpeg-turbo
+Attribution: licenses/libjpeg/LICENSE.md licenses/libjpeg/README.ijg 
+
+Title: libjxl
+License: BSD-3-Clause
+Source: https://github.com/libjxl/libjxl
+Attribution: licenses/libjxl/LICENSE licenses/libjxl/AUTHORS 
+
+Title: brotli
+License: MIT
+Source: https://github.com/google/brotli
+Attribution: licenses/brotli/LICENSE 
+
+Title: highway
+License: Apache-2.0
+Source: https://github.com/google/highway
+Attribution: licenses/highway/LICENSE-2.0.txt 
+
+Title: libmodplug
+License: Public-domain
+Source: https://github.com/Konstanty/libmodplug
+Attribution: licenses/libmodplug/COPYING licenses/libmodplug/AUTHORS 
+
+Title: libmysofa
+License: BSD-3-Clause
+Source: https://github.com/hoene/libmysofa
+Attribution: licenses/libmysofa/LICENSE 
+
+Title: libplacebo
+License: LGPL-2.1
+Source: https://github.com/haasn/libplacebo
+Attribution: licenses/libplacebo/LICENSE 
+
+Title: glad
+License: MIT
+Source: https://github.com/Dav1dde/glad
+Attribution: licenses/glad/LICENSE 
+
+Title: fast-float
+License: MIT
+Source: https://github.com/fastfloat/fast_float
+Attribution: licenses/fast-float/LICENSE-MIT licenses/fast-float/AUTHORS 
+
+Title: xxHash
+License: BSD-2-Clause
+Source: https://github.com/Cyan4973/xxHash
+Attribution: licenses/xxHash/LICENSE 
+
+Title: libpng
+License: libpng
+Source: https://github.com/pnggroup/libpng
+Attribution: licenses/libpng/LICENSE.md licenses/libpng/AUTHORS.md 
+
+Title: libsdl2
+License: zlib
+Source: https://github.com/libsdl-org/SDL
+Attribution: licenses/libsdl2/LICENSE.txt 
+
+Title: libsoxr
+License: LGPL-2.1
+Source: https://gitlab.com/shinchiro/soxr
+Attribution: licenses/libsoxr/COPYING.LGPL licenses/libsoxr/AUTHORS 
+
+Title: libsrt
+License: MPL-2.0
+Source: https://github.com/Haivision/srt
+Attribution: licenses/libsrt/LICENSE 
+
+Title: libssh
+License: Multiple-licenses
+Source: https://git.libssh.org/projects/libssh.git
+Attribution: licenses/libssh/COPYING licenses/libssh/BSD licenses/libssh/AUTHORS 
+
+Title: libudfread
+License: LGPL-2.1
+Source: https://code.videolan.org/videolan/libudfread
+Attribution: licenses/libudfread/COPYING 
+
+Title: libunibreak
+License: zlib
+Source: https://github.com/adah1972/libunibreak
+Attribution: licenses/libunibreak/LICENCE licenses/libunibreak/AUTHORS 
+
+Title: libva
+License: MIT
+Source: https://github.com/intel/libva
+Attribution: licenses/libva/COPYING 
+
+Title: libvpl
+License: MIT
+Source: https://github.com/intel/libvpl
+Attribution: licenses/libvpl/LICENSE 
+
+Title: libvpx
+License: BSD-3-Clause
+Source: https://chromium.googlesource.com/webm/libvpx
+Attribution: licenses/libvpx/LICENSE licenses/libvpx/AUTHORS 
+
+Title: libwebp
+License: BSD-3-Clause
+Source: https://chromium.googlesource.com/webm/libwebp
+Attribution: licenses/libwebp/COPYING licenses/libwebp/AUTHORS 
+
+Title: libxml2
+License: MIT
+Source: https://gitlab.gnome.org/GNOME/libxml2
+Attribution: licenses/libxml2/Copyright 
+
+Title: libzimg
+License: WTFPL
+Source: https://github.com/sekrit-twc/zimg
+Attribution: licenses/libzimg/COPYING 
+
+Title: graphengine
+License: WTFPL
+Source: https://github.com/sekrit-twc/graphengine
+Attribution: licenses/graphengine/COPYING 
+
+Title: libzvbi
+License: GPL-2.0
+Source: https://github.com/zapping-vbi/zvbi
+Attribution: licenses/libzvbi/COPYING.md licenses/libzvbi/AUTHORS 
+
+Title: luajit
+License: MIT
+Source: https://github.com/openresty/luajit2
+Attribution: licenses/luajit/COPYRIGHT 
+
+Title: mpv
+License: GPL-2.0
+Source: https://github.com/mpv-player/mpv
+Attribution: licenses/mpv/LICENSE.GPL licenses/mpv/Copyright 
+
+Title: mujs
+License: ISC
+Source: https://codeberg.org/ccxvii/mujs
+Attribution: licenses/mujs/COPYING licenses/mujs/AUTHORS 
+
+Title: nvcodec-headers
+License: MIT
+Source: https://git.videolan.org/?p=ffmpeg/nv-codec-headers.git
+Attribution: licenses/nvcodec-headers/LICENSE.txt 
+
+Title: ogg
+License: BSD-3-Clause
+Source: https://github.com/xiph/ogg
+Attribution: licenses/ogg/COPYING licenses/ogg/AUTHORS 
+
+Title: openal-soft
+License: Multiple-licenses
+Source: https://github.com/kcat/openal-soft
+Attribution: licenses/openal-soft/COPYING licenses/openal-soft/BSD-3Clause licenses/openal-soft/LICENSE-pffft 
+
+Title: opus
+License: BSD-3-Clause
+Source: https://github.com/xiph/opus
+Attribution: licenses/opus/COPYING licenses/opus/AUTHORS 
+
+Title: rubberband
+License: GPL-2.0
+Source: https://github.com/breakfastquay/rubberband
+Attribution: licenses/rubberband/COPYING 
+
+Title: libsamplerate
+License: BSD-2-Clause
+Source: https://github.com/libsndfile/libsamplerate
+Attribution: licenses/libsamplerate/COPYING licenses/libsamplerate/AUTHORS 
+
+Title: shaderc
+License: Apache-2.0
+Source: https://github.com/google/shaderc
+Attribution: licenses/shaderc/LICENSE licenses/shaderc/AUTHORS 
+
+Title: SPIRV-Headers
+License: MIT
+Source: https://github.com/KhronosGroup/SPIRV-Headers
+Attribution: licenses/SPIRV-Headers/LICENSE 
+
+Title: SPIRV-Tools
+License: Apache-2.0
+Source: https://github.com/KhronosGroup/SPIRV-Tools
+Attribution: licenses/SPIRV-Tools/LICENSE 
+
+Title: glslang
+License: BSD-3-Clause
+Source: https://github.com/KhronosGroup/glslang
+Attribution: licenses/glslang/LICENSE.txt 
+
+Title: speex
+License: BSD-3-Clause
+Source: https://github.com/xiph/speex
+Attribution: licenses/speex/COPYING licenses/speex/AUTHORS 
+
+Title: SPIRV-cross
+License: Apache-2.0
+Source: https://github.com/KhronosGroup/SPIRV-Cross
+Attribution: licenses/SPIRV-cross/LICENSE 
+
+Title: subrandr
+License: MPL-2.0
+Source: https://github.com/afishhh/subrandr
+Attribution: licenses/subrandr/LICENSE 
+
+Title: svtav1
+License: BSD-2-Clause
+Source: https://gitlab.com/AOMediaCodec/SVT-AV1
+Attribution: licenses/svtav1/LICENSE-BSD2.md 
+
+Title: uavs3d
+License: BSD-3-Clause
+Source: https://github.com/uavs3/uavs3d
+Attribution: licenses/uavs3d/COPYING 
+
+Title: uchardet
+License: MPL-1.1
+Source: https://gitlab.freedesktop.org/uchardet/uchardet
+Attribution: licenses/uchardet/COPYING licenses/uchardet/AUTHORS 
+
+Title: vorbis
+License: BSD-3-Clause
+Source: https://github.com/xiph/vorbis
+Attribution: licenses/vorbis/COPYING licenses/vorbis/AUTHORS 
+
+Title: vulkan
+License: Apache-2.0
+Source: https://github.com/KhronosGroup/Vulkan-Loader
+Attribution: licenses/vulkan/LICENSE.txt 
+
+Title: vulkan-header
+License: Multiple-licenses
+Source: https://github.com/KhronosGroup/Vulkan-Headers
+Attribution: licenses/vulkan-header/LICENSE.md licenses/vulkan-header/Apache-2.0.txt licenses/vulkan-header/MIT.txt 
+
+Title: x264
+License: GPL-2.0
+Source: https://code.videolan.org/videolan/x264
+Attribution: licenses/x264/COPYING licenses/x264/AUTHORS 
+
+Title: x265-multilib
+License: GPL-2.0
+Source: https://bitbucket.org/multicoreware/x265_git/src/master
+Attribution: licenses/x265-multilib/COPYING 
+
+Title: xz
+License: Multiple-licenses
+Source: https://github.com/tukaani-project/xz
+Attribution: licenses/xz/COPYING licenses/xz/COPYING.0BSD licenses/xz/COPYING.LGPLv2.1 licenses/xz/COPYING.GPLv3 licenses/xz/AUTHORS 
+
+Title: zstd
+License: BSD-3-Clause
+Source: https://github.com/facebook/zstd
+Attribution: licenses/zstd/LICENSE 
+
+Title: xvidcore
+License: GPL-2.0
+Source: https://labs.xvid.com/source/
+Attribution: licenses/xvidcore/COPYING licenses/xvidcore/AUTHORS.txt 
+
+Title: lzo
+License: GPL-2.0
+Source: https://fossies.org/linux/misc/lzo-2.10.tar.gz/
+Attribution: licenses/lzo/COPYING licenses/lzo/AUTHORS 
+
+Title: libopenmpt
+License: BSD-3-Clause
+Source: https://lib.openmpt.org/libopenmpt/download
+Attribution: licenses/libopenmpt/LICENSE.txt 
+
+Title: libiconv
+License: GPL-3.0
+Source: https://ftp.gnu.org/pub/gnu/libiconv
+Attribution: licenses/libiconv/COPYING licenses/libiconv/AUTHORS.txt 
+
+Title: vapoursynth
+License: LGPL-2.1
+Source: https://github.com/vapoursynth/vapoursynth
+Attribution: licenses/vapoursynth/COPYING.LESSER 
+

@@ -1,3 +1,8 @@
+Title: AeroCE-TriTone-up
+License: CC0-1.0
+Source: https://freesound.org/people/ScottyD0ES/sounds/708340/
+Attribution: licenses/AeroCE-TriTone-up/LICENSE.txt licenses/AeroCE-TriTone-up/AUTHORS.txt 
+
 Title: charset-normalizer
 License: MIT
 Source: https://github.com/jawah/charset_normalizer

@@ -15,9 +15,9 @@ This application connects to the 18+ website walltaker.joi.how and should **only
 
 ### Windows
 
-Download and extract VisorPopWindows_1.0.0.zip from the [releases page](https://github.com/axolhex/VisorPopWalltaker/releases).
+Download and extract VisorPopWindows.v1.0.0.zip from the [releases page](https://github.com/axolhex/VisorPopWalltaker/releases).
 
-If you encounter the error "Failed to load Python DLL", you will also need to download and install the Microslop Visual C++ Redistributable:<br>
+If you encounter the error "Failed to load Python DLL", you will also need to download and install the Microsoft Visual C++ Redistributable:<br>
 <https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-180#latest-supported-redistributable-version>
 
 Currently, only 64-bit Windows systems are supported.
@@ -50,7 +50,7 @@ If you are using GNOME, you will also need gnome-shell-extension-appindicator if
 `sudo zypper in gnome-shell-extension-appindicator`<br>
 `gnome-extensions enable appindicatorsupport@rgcjonas.gmail.com`
 
-Download and extract VisorPopLinux_1.0.0.zip from the [releases page](https://github.com/axolhex/VisorPopWalltaker/releases).
+Download and extract VisorPopLinux.v1.0.0.zip from the [releases page](https://github.com/axolhex/VisorPopWalltaker/releases).
 
 Make the VisorPop script executable with: `chmod +x VisorPop.sh`
 

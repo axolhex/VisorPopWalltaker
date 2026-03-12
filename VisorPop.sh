@@ -45,7 +45,7 @@ echo "Verifying files..."
 app_path=$PWD
 [ -d "_internal" ] && app_path="$PWD/_internal"
 
-required_files=("$app_path/assets/AeroCE_TriTone_up.wav" "$app_path/assets/icon.png" "$app_path/data/input_image.conf" "$app_path/data/input_video.conf" "$app_path/src/gui.py" "$app_path/src/popup_player.py" "$app_path/src/setup.py" "$app_path/src/title_message.py" "$app_path/src/visorpop.py")
+required_files=("$app_path/assets/AeroCE_TriTone_up.wav" "$app_path/assets/icon.png" "$app_path/data/input_image.conf" "$app_path/data/input_video.conf" "$app_path/src/file_utils.py" "$app_path/src/gui.py" "$app_path/src/popup_player.py" "$app_path/src/reply.py" "$app_path/src/title_message.py" "$app_path/src/tk_utils.py" "$app_path/src/visorpop.py")
 for file in ${required_files[@]}; do
     [ -f "$file" ] || quit_script "$file not found!"
 done

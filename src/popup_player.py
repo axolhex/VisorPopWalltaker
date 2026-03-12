@@ -15,19 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with VisorPop.  If not, see <https://www.gnu.org/licenses/>.
 
-import os
 import sys
 import time
 import logging
 import threading
 import tkinter as tk
-from platform import system
 from psutil import pid_exists
 from functools import partial
-from setup import setup_logging
+from file_utils import setup_mpv, setup_logging
+from tk_utils import exit_player
 
-if system() == 'Windows':
-    os.environ["PATH"] = f'{os.path.dirname(__file__)}/libmpv' + os.pathsep + os.environ["PATH"]
+GPU_CONTEXT: str = setup_mpv()
 import mpv
 
 class PopupPlayer(tk.Tk):
@@ -51,14 +49,19 @@ class PopupPlayer(tk.Tk):
         self.withdraw()
         #Keep this self.update(). Pop-up windows sometimes fail to start without it
         self.update()
-        self.overrideredirect(True)
-        self.attributes('-topmost', True)
         self.title(image_name)
         self.geometry(f'{size_x}x{size_y}+{position_x}+{position_y}')
+        self.resizable(width=False, height=False)
+        self.attributes('-topmost', True)
+        self.overrideredirect(True)
+        self.refresh_rate: float = 1 / 30
 
-        video_output = ''
-        if system() == 'Linux':
-            video_output = 'x11'
+        #Pop-up controls for Windows system. Linux uses input-image.conf or input-video.conf
+        self.bind('<Double-Button-1>', self.pause_player)
+        self.bind('<Button-3>', self.disable_time_limit)
+        self.protocol('WM_DELETE_WINDOW', self.pause_player)
+        if input_file == f'{program_folder}/data/input_video.conf':
+            self.bind('<MouseWheel>', self.change_video_volume)
 
         #Setup mpv in tk window
         self.player = mpv.MPV(wid=str(int(self.winfo_id())),
@@ -83,30 +86,32 @@ class PopupPlayer(tk.Tk):
                               osd_font_size=48,
                               osc=False)
         try:
-            self.player.gpu_context = video_output
+            self.player.gpu_context = GPU_CONTEXT
         except TypeError:
             logging.error("Failed to set gpu context")
-            self.player.vo = video_output
+            self.player.vo = GPU_CONTEXT
         self.player.play(media_file)
-
-        #Pop-up controls for Windows system. Linux uses input-image.conf or input-video.conf
-        self.bind('<Double-Button-1>', self.pause_player)
-        self.bind('<Button-3>', self.disable_time_limit)
-        self.protocol('WM_DELETE_WINDOW', partial(self.pause_player, 0))
-        if input_file == f'{program_folder}/data/input_video.conf':
-            self.bind('<MouseWheel>', self.change_video_volume)
 
         #Wait until playback starts to show window and play notification sound
         logging.info(f"Loading: {image_name}")
-        try:
-            self.player.wait_until_playing(timeout=30)
-        except TimeoutError:
-            self.close_popup(f"Failed to open: {image_name}", False)
+        playing: bool = False
+        counter: int = 0
+        while not playing:
+            try:
+                self.player.wait_until_playing(timeout=10)
+                playing = True
+            except TimeoutError:
+                if not pid_exists(parent_pid) or counter >= 30:
+                    logging.error(f"Failed to open: {image_name}")
+                    self.close_popup(f"Exiting: {image_name}")
+                self.player.stop()
+                self.player.play(media_file)
+            counter += 1
         threading.Thread(target=partial(play_notif_sound, notif_volume, program_folder), daemon=True).start()
         logging.info(f"Opened: {image_name}")
         self.deiconify()
 
-        timer = popup_duration + time.perf_counter()
+        timer: float = popup_duration + time.perf_counter()
         while True:
             self.update()
             #Close when time expires, if mpv is paused, if mpv core fails or if parent process is closed
@@ -120,12 +125,12 @@ class PopupPlayer(tk.Tk):
                     self.player.loop_file = 'inf'
                     self.player.command('show-text', "Time limit: None")
             try:
-                self.player.wait_for_event('end_file', timeout=0.0333)
+                self.player.wait_for_event('end_file', timeout=self.refresh_rate)
                 self.close_popup(f"Closing: {image_name}")
             except TimeoutError:
                 pass
 
-    def pause_player(self, event: tk.Event | int) -> None:
+    def pause_player(self, event: tk.Event | None = None) -> None:
         self.player.pause = True
 
     def disable_time_limit(self, event: tk.Event) -> None:
@@ -142,18 +147,10 @@ class PopupPlayer(tk.Tk):
             self.player.volume = 0
         self.player.command('show-text', f"Volume: {round(self.player.volume)}%")
 
-    def close_popup(self, message: str, window_opened: bool = True) -> None:
-        if window_opened:
-            logging.info(message)
-        else:
-            logging.error(message)
+    def close_popup(self, message: str) -> None:
+        logging.info(message)
         self.player.quit()
-        try:
-            self.player.wait_for_shutdown(timeout=5)
-        except TimeoutError:
-            logging.error("Could not close pop-up, forcing window to close...")
-        self.destroy()
-        sys.exit()
+        exit_player(self.player, self)
 
 def play_notif_sound(notif_volume: int, path: str) -> None:
     audio = mpv.MPV(volume=notif_volume,

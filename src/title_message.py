@@ -18,15 +18,17 @@
 import random
 from platform import system
 from getpass import getuser
+from file_utils import find_app_path, read_settings_file
 
 def random_message() -> str:
-    rand_roll = random.randrange(0, 1000)
+
+    rand_roll: int = random.randrange(0, 1000)
     if not rand_roll:
         return "<3"
 
     rand_roll = random.randrange(0, 10)
     if not rand_roll:
-        i = random.randrange(0, 15)
+        i: int = random.randrange(0, 15)
         match i:
             case 0:
                 return "Monosodium glutamate"
@@ -92,10 +94,10 @@ def random_message() -> str:
             else:
                 return "Try out the Linux version too!"
         case 1:
-            return f"Now on {system()}!"
+            return f"Total pop-ups: {read_settings_file(find_app_path()[1])["popup_count"]}"
         case 2:
             return f"Welcome back {getuser()}"
         case 3:
             return "Made by AxolHex"
         case 4:
-            return "Version 1.0.0"
+            return "Version 1.0.1"

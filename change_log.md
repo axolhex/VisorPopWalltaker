@@ -14,6 +14,7 @@
 - Pop-up windows are no longer resizable while open on Hyprland and other titling window managers
 - Fixed an issue that caused client to crash when connecting to a link with no posts
 - Fixed an issue that caused client to continue running if main menu unexpectedly closed
+- Fixed an issue that caused a blank window to briefly appear when opening a pop-up
 - Fixed an issue that caused pop-ups to not appear after temporarily losing connection
 
 # Version 1.0.0

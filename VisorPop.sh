@@ -61,7 +61,7 @@ source "$app_path/venv/bin/activate"
 [[ $1 == "-u" || $1 == "--upgrade" ]] && echo "Updating Python dependencies..." || echo "Checking Python dependencies..."
 python3 -m pip install --upgrade pip
 
-dependencies=("mpv" "pillow" "psutil" "pycairo" "PyGObject" "pymediainfo" "pystray" "six" "python-xlib" "requests" "charset-normalizer" "idna" "urllib3")
+dependencies=("mpv" "pillow" "psutil" "pycairo" "PyGObject" "pymediainfo" "pystray" "six" "python-xlib" "requests" "certifi" "charset-normalizer" "idna" "urllib3")
 for lib in ${dependencies[@]}; do
     fail_message="$lib not installed!"
     if [[ $1 == "-u" || $1 == "--upgrade" ]]; then

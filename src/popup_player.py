@@ -75,7 +75,6 @@ class PopupPlayer(tk.Tk):
                               config=False,
                               input_default_bindings=False,
                               idle=True,
-                              force_window=True,
                               volume_max=125,
                               osd_level=1,
                               osd_duration=3000,

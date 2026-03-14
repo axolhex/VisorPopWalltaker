@@ -100,7 +100,6 @@ class ReplyGUI:
                                  config=False,
                                  input_default_bindings=False,
                                  idle=True,
-                                 force_window=True,
                                  osd_level=0,
                                  osd_bar=False,
                                  osc=False)

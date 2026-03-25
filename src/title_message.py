@@ -24,67 +24,87 @@ def random_message() -> str:
 
     rand_roll: int = random.randrange(0, 1000)
     if not rand_roll:
-        return "<3"
+        return "<3 <3 <3"
 
     rand_roll = random.randrange(0, 10)
     if not rand_roll:
-        i: int = random.randrange(0, 15)
+        i: int = random.randrange(0, 20)
         match i:
             case 0:
-                return "Monosodium glutamate"
+                return f"You use this a lot, {getuser()}..."
             case 1:
-                return "Browse e621.net, it's good for your health!"
+                return "Made by a good pet~"
             case 2:
-                return "Protogens are so cool! I wish robots were real..."
+                return "Monosodium glutamate"
             case 3:
-                return "Hey guys, did you know that in terms of male human and..."
+                return "Browse e621.net, it's good for your health!"
             case 4:
-                return "Shout out to synth_(vader_san) Gotta be one of my favorite tags"
+                return "Protogens are so cool! I wish robots were real..."
             case 5:
-                return "my paws are big and soft paypal me 20 bucks"
+                return "Hey guys, did you know that in terms of male human and..."
             case 6:
-                return "hi guyts"
+                return "Shout out to synth_(vader-san) Gotta be one of my favorite tags"
             case 7:
-                return "dude shur.up"
+                return "my paws are big and soft paypal me 20 bucks"
             case 8:
-                return "oh my goodness gracious"
+                return "hi guyts"
             case 9:
-                return "could i uhh ummm could i get a :3 in the chat"
+                return "dude shur.up"
             case 10:
-                return ":3"
+                return "oh my goodness gracious"
             case 11:
-                return ">:3"
+                return "enough of your shenanigans"
             case 12:
-                return ">///<"
+                return "haiiiii ^_^ hi!! hiiiiii <3 haiiiiii hii :3"
             case 13:
-                return "OwO"
+                return "could i uhh ummm could i get a :3 in the chat"
             case 14:
+                return ":3"
+            case 15:
+                return ">:3"
+            case 16:
+                return "^_^"
+            case 17:
+                return ">///<"
+            case 18:
+                return "OwO"
+            case 19:
                 return "UwU"
 
     rand_roll = random.randrange(0, 4)
     if not rand_roll:
-        i = random.randrange(0, 10)
+        i = random.randrange(0, 15)
         match i:
             case 0:
                 return f"Hi there {getuser()}!"
             case 1:
-                return "Made in Arch btw"
+                return "Welcome back uh... who are you again?"
             case 2:
-                return "61786F6C6F746C"
+                return "Made in Arch btw"
             case 3:
-                return "beep boop"
+                return "Made by a dork"
             case 4:
-                return "You know why you're here..."
+                return "Version 9601"
             case 5:
-                return "Keep up the good vibes!"
+                return "61786F6C6F746C"
             case 6:
-                return "I forgot what I was gonna write here"
+                return "beep boop"
             case 7:
-                return "This thing took way too long to make"
+                return "You know why you're here..."
             case 8:
-                return "Press Start!"
+                return "Keep up the good vibes!"
             case 9:
+                return "I forgot what I was gonna write here"
+            case 10:
+                return "This thing took way too long to make"
+            case 11:
+                return "Press Start!"
+            case 12:
                 return "These messages are random!"
+            case 13:
+                return "Guaranteed to distract!"
+            case 14:
+                return "Does anyone even read these?"
 
     i = random.randrange(0, 5)
     match i:
@@ -100,4 +120,4 @@ def random_message() -> str:
         case 3:
             return "Made by AxolHex"
         case 4:
-            return "Version 1.0.1"
+            return "Version 1.0.2"

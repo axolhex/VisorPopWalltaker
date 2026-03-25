@@ -30,7 +30,7 @@ import mpv
 
 class PopupPlayer(tk.Tk):
     def __init__(self,
-                 auto_close: bool,
+                 time_limit: int,
                  notif_volume: int,
                  video_volume: int,
                  image_name: str,
@@ -114,13 +114,13 @@ class PopupPlayer(tk.Tk):
         while True:
             self.update()
             #Close when time expires, if mpv is paused, if mpv core fails or if parent process is closed
-            if auto_close and timer <= time.perf_counter() or self.player.pause or self.player.core_shutdown is not False or not pid_exists(parent_pid):
+            if time_limit and timer <= time.perf_counter() or self.player.pause or self.player.core_shutdown is not False or not pid_exists(parent_pid):
                 self.close_popup(f"Closing: {image_name}")
             #Disables time limit if player osd level changes
             if not self.player.osd_level:
                 self.player.osd_level = 1
-                if auto_close or not self.player.loop_file:
-                    auto_close = False
+                if time_limit or not self.player.loop_file:
+                    time_limit = 0
                     self.player.loop_file = 'inf'
                     self.player.command('show-text', "Time limit: None")
             try:

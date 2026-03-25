@@ -1,3 +1,21 @@
+# Version 1.0.2
+
+## Major Changes
+
+- New feature: multi-monitor support
+    - Added Monitors option to main menu
+    - Fullscreen pop-ups now only cover one screen
+    - Pop-up windows now scale correctly when using multiple monitors
+    - Menus are now correctly centered when using multiple monitors
+- Reworked main menu and organized connection and pop-up settings into separate tabs
+- Added Polling delay option to main menu
+- Added more rare title messages to main menu
+- Renamed option "Pop-up time limit" to "Time limit"
+- Renamed option "Max pop-up size" to "Maximum size"
+- Pressing enter in reply menu's entry will now send the reply
+- Fixed an issue that caused reply menu to crash when opening certain posts
+- Fixed an issue that caused text to not appear when a slider was set to it's lowest value
+
 # Version 1.0.1
 
 ## Major Changes

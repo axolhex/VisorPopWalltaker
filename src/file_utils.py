@@ -16,6 +16,7 @@
 # along with VisorPop.  If not, see <https://www.gnu.org/licenses/>.
 
 import os
+import ast
 import sys
 import logging
 import configparser
@@ -76,13 +77,15 @@ def write_default_settings(settings_ini: str) -> None:
     config.set('Settings', 'api_key', "")
     config.set('Settings', 'download', "False")
     config.set('Settings', 'save_path', "")
+    config.set('Settings', 'poll_delay', "10")
+    config.set('Settings', 'monitors', "[True]")
     config.set('Settings', 'time_limit', "60")
-    config.set('Settings', 'auto_close', "True")
     config.set('Settings', 'play_video', "True")
     config.set('Settings', 'popup_size', "50")
     config.set('Settings', 'fullscreen', "False")
     config.set('Settings', 'notif_volume', "75")
     config.set('Settings', 'video_volume', "50")
+    config.set('Settings', 'menu_tab', "0")
     config.set('Settings', 'popup_count', "0")
     try:
         with open(settings_ini, 'w') as file:
@@ -101,13 +104,15 @@ def read_settings_file(settings_ini: str) -> dict | None:
         api_key: str = config.get('Settings', 'api_key')
         download: bool = config.getboolean('Settings', 'download')
         save_path: str = config.get('Settings', 'save_path')
+        poll_delay: int = config.getint('Settings', 'poll_delay')
+        monitors: list[bool] = list(map(ast.literal_eval, config.get('Settings', 'monitors').replace('[', '').replace(']', '').replace(' ', '').split(',')))
         time_limit: int = config.getint('Settings', 'time_limit')
-        auto_close: bool = config.getboolean('Settings', 'auto_close')
         play_video: bool = config.getboolean('Settings', 'play_video')
         popup_size: int = config.getint('Settings', 'popup_size')
         fullscreen: bool = config.getboolean('Settings', 'fullscreen')
         notif_volume: int = config.getint('Settings', 'notif_volume')
         video_volume: int = config.getint('Settings', 'video_volume')
+        menu_tab: int = config.getint('Settings', 'menu_tab')
         popup_count: int = config.getint('Settings', 'popup_count')
     except Exception as err:
         logging.error(repr(err))
@@ -116,13 +121,15 @@ def read_settings_file(settings_ini: str) -> dict | None:
                            "api_key": api_key,
                            "download": download,
                            "save_path": save_path,
+                           "poll_delay": poll_delay,
+                           "monitors": monitors,
                            "time_limit": time_limit,
-                           "auto_close": auto_close,
                            "play_video": play_video,
                            "popup_size": popup_size,
                            "fullscreen": fullscreen,
                            "notif_volume": notif_volume,
                            "video_volume": video_volume,
+                           "menu_tab": menu_tab,
                            "popup_count": popup_count}
     return settings_dict
 

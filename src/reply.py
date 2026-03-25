@@ -20,7 +20,7 @@ import logging
 import requests
 import tkinter as tk
 from file_utils import setup_mpv, setup_logging, find_app_path, read_settings_file
-from tk_utils import initialize_gui, exit_player
+from tk_utils import initialize_gui, exit_player, apply_widget_theme
 from visorpop import get_json_data
 
 GPU_CONTEXT: str = setup_mpv()
@@ -137,7 +137,7 @@ class ReplyGUI:
                     self.loading_label.config(text="Loading preview...")
                     self.loading_label.pack(fill='both', expand=True)
                     self.root.update()
-                    self.link_info: dict | None = get_json_data(f"https://walltaker.joi.how/api/links/{self.settings["link_id"]}.json")[0]
+                    self.link_info: dict | None = get_json_data(f"https://walltaker.joi.how/api/links/{self.settings["link_id"]}.json", self.settings["poll_delay"])[0]
                     if self.link_info is None or self.link_info["post_url"] is None:
                         current_count = -1
                         timer = 1 + time.perf_counter()
@@ -151,7 +151,7 @@ class ReplyGUI:
 
                     #Update preview
                     post_md5: str = self.link_info["post_url"].split('/')[6].split('.')[0]
-                    e621_info: dict | None = get_json_data(f"https://e621.net/posts.json?md5={post_md5}")[0]
+                    e621_info: dict | None = get_json_data(f"https://e621.net/posts.json?md5={post_md5}", self.settings["poll_delay"])[0]
                     if e621_info is None:
                         self.loading_label.config(text="Failed to load preview")
                         self.change_header_label()
@@ -164,8 +164,11 @@ class ReplyGUI:
                             break
                     except KeyError:
                         preview_url: str = e621_info["post"]["sample"]["url"]
-                    if preview_url is None:
-                        preview_url = e621_info["post"]["file"]["url"]
+                    try:
+                        if preview_url is None:
+                            preview_url = e621_info["post"]["file"]["url"]
+                    except UnboundLocalError:
+                        preview_url: str = e621_info["post"]["file"]["url"]
                     self.preview.play(preview_url)
                     self.change_header_label()
                     self.root.update()
@@ -189,7 +192,7 @@ class ReplyGUI:
                     continue
             time.sleep(self.refresh_rate)
 
-    def send_reply(self) -> None:
+    def send_reply(self, event: tk.Event | None = None) -> None:
         post_data: dict = {"api_key": self.settings["api_key"],
                            "type": self.reply_type[self.optionmenu_var_reply.get()],
                            "text": self.reply_entry.get()}
@@ -226,51 +229,10 @@ class ReplyGUI:
                          highlightbackground=self.color["border"],
                          highlightcolor=self.color["border"],
                          highlightthickness=4)
-        for widget in self.root.children:
-            widget = self.root.nametowidget(widget)
-            match widget.winfo_class():
-                case 'Label':
-                    widget.config(font=self.font["large"],
-                                  fg=self.color["text_main"],
-                                  bg=self.color["bg_main"])
-                case 'Entry':
-                    widget.config(font=self.font["entry"],
-                                  fg=self.color["text_main"],
-                                  bg=self.color["bg_widget"],
-                                  insertbackground=self.color["text_main"],
-                                  highlightbackground=self.color["border"],
-                                  highlightcolor=self.color["text_main"],
-                                  highlightthickness=1)
-                case 'Text':
-                    widget.config(font=self.font["small"],
-                                  fg=self.color["text_dim"],
-                                  bg=self.color["bg_main"],
-                                  insertbackground=self.color["text_dim"],
-                                  highlightthickness=0)
-                case 'Frame':
-                    widget.config(bg=self.color["bg_main"])
-                    for item in widget.children:
-                        item = widget.nametowidget(item)
-                        match item.winfo_class():
-                            case 'Button':
-                                item.config(font=self.font["small"],
-                                            fg=self.color["text_main"],
-                                            bg=self.color["bg_button"],
-                                            activeforeground=self.color["text_main"],
-                                            activebackground=self.color["bg_button_hover"],
-                                            highlightbackground=self.color["border"])
-                            case 'Menubutton':
-                                item.config(font=self.font["small"],
-                                            fg=self.color["text_main"],
-                                            bg=self.color["bg_button"],
-                                            activeforeground=self.color["text_main"],
-                                            activebackground=self.color["bg_button_hover"],
-                                            highlightbackground=self.color["border"])
-                                item.children["menu"].config(font=self.font["small"],
-                                                             fg=self.color["text_main"],
-                                                             bg=self.color["bg_button"],
-                                                             activeforeground=self.color["text_main"],
-                                                             activebackground=self.color["bg_button_hover"])
+        for widget0 in self.root.children:
+            widget0 = apply_widget_theme(widget0, self.root, self.font, self.color)
+            for widget1 in widget0.children:
+                apply_widget_theme(widget1, widget0, self.font, self.color)
         self.loading_label.config(font=self.font["small"], fg=self.color["text_dim"])
 
 if __name__ == "__main__":

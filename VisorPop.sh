@@ -56,12 +56,12 @@ if [ ! -d "$app_path/venv" ]; then
     echo "Creating Python virtual environment..."
     python3 -m venv "$app_path/venv" || quit_script "Could not create virtual environment. Make sure python venv is installed."
 fi
-source "$app_path/venv/bin/activate"
+source "$app_path/venv/bin/activate" || quit_script "Could not enter virtual environment. Make sure python venv is installed."
 
 [[ $1 == "-u" || $1 == "--upgrade" ]] && echo "Updating Python dependencies..." || echo "Checking Python dependencies..."
 python3 -m pip install --upgrade pip
 
-dependencies=("mpv" "pillow" "psutil" "pycairo" "PyGObject" "pymediainfo" "pystray" "six" "python-xlib" "requests" "certifi" "charset-normalizer" "idna" "urllib3")
+dependencies=("mpv" "pillow" "psutil" "pycairo" "PyGObject" "pymediainfo" "pystray" "six" "python-xlib" "requests" "certifi" "charset-normalizer" "idna" "urllib3" "screeninfo")
 for lib in ${dependencies[@]}; do
     fail_message="$lib not installed!"
     if [[ $1 == "-u" || $1 == "--upgrade" ]]; then

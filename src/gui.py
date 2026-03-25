@@ -23,13 +23,15 @@ import pystray
 import threading
 import multiprocessing
 import tkinter as tk
+from tkinter import ttk
 from PIL import Image
 from typing import Any
 from getpass import getuser
 from platform import system
 from functools import partial
+from screeninfo import get_monitors
 from file_utils import setup_mpv, setup_logging, config_get, find_app_path, write_default_settings, read_settings_file, write_setting
-from tk_utils import initialize_gui, message_window
+from tk_utils import initialize_gui, message_window, apply_widget_theme
 from title_message import random_message
 from reply import ReplyGUI
 import visorpop
@@ -59,10 +61,30 @@ class MainGUI:
         self.font: dict
         self.color: dict
         self.root, self.font, self.color = initialize_gui(f"VisorPop — {random_message()}", 500, 500)
-        self.app_image = Image.open(f'{self.app_path}/assets/icon.png')
+
+        #Notebook and settings frames
+        self.notebook = ttk.Notebook(self.root)
+        self.notebook.pack(fill='both', expand=True)
+        self.notebook.bind('<<NotebookTabChanged>>', self.set_menu_tab)
+
+        self.connection_settings_frame = tk.Frame(self.notebook)
+        self.connection_settings_frame.pack(fill='both', expand=True)
+
+        self.separator0 = tk.Frame(self.connection_settings_frame, height=2)
+        self.separator0.pack(fill='x', expand=True, anchor='nw')
+
+        self.popups_settings_frame = tk.Frame(self.notebook)
+        self.popups_settings_frame.pack(fill='both', expand=True)
+
+        self.separator1 = tk.Frame(self.popups_settings_frame, height=2)
+        self.separator1.pack(fill='x', expand=True, anchor='nw')
+
+        self.notebook.add(self.connection_settings_frame, text="Connection")
+        self.notebook.add(self.popups_settings_frame, text="Pop-ups")
+        self.notebook.select(settings["menu_tab"])
 
         #Id label and entry
-        self.link_id_frame = tk.Frame(self.root)
+        self.link_id_frame = tk.Frame(self.connection_settings_frame)
         self.link_id_frame.pack(fill='both', expand=True)
 
         self.link_id_label = tk.Label(self.link_id_frame, text="Link ID")
@@ -77,7 +99,7 @@ class MainGUI:
         self.link_id_entry.insert(0, settings["link_id"])
 
         #Api key label and entry
-        self.api_key_frame = tk.Frame(self.root)
+        self.api_key_frame = tk.Frame(self.connection_settings_frame)
         self.api_key_frame.pack(fill='both', expand=True)
 
         self.api_key_label = tk.Label(self.api_key_frame, text="API key")
@@ -91,8 +113,8 @@ class MainGUI:
         self.api_key_entry.bind('<KeyPress>', partial(update_entry_text, self.color["text_dim"], self.api_key_entry, self.api_key_enter_label))
         self.api_key_entry.insert(0, settings["api_key"])
 
-        #Download label and entry
-        self.download_frame = tk.Frame(self.root)
+        #Download checkbutton and entry
+        self.download_frame = tk.Frame(self.connection_settings_frame)
         self.download_frame.pack(fill='both', expand=True)
 
         self.checkbutton_var_download = tk.BooleanVar()
@@ -122,14 +144,73 @@ class MainGUI:
                 self.save_path_entry.insert(0, f'/home/{getuser()}/Downloads')
             self.set_save_path()
 
+        #Poll delay label and scale
+        self.poll_delay_frame = tk.Frame(self.connection_settings_frame)
+        self.poll_delay_frame.pack(fill='both', expand=True)
+
+        self.poll_delay_label = tk.Label(self.poll_delay_frame, text="Polling delay: 0:10")
+        self.poll_delay_label.pack(padx=16, pady=(8, 2), anchor='nw')
+
+        self.scale_var_poll_delay = tk.IntVar()
+        self.poll_delay_scale = tk.Scale(self.poll_delay_frame,
+                                           from_=10, to=60,
+                                           resolution=5,
+                                           width=16,
+                                           orient='horizontal',
+                                           showvalue=False,
+                                           variable=self.scale_var_poll_delay,
+                                           command=partial(
+                                               self.set_scale_var,
+                                               self.poll_delay_label,
+                                               "Polling delay",
+                                               'poll_delay',
+                                               self.scale_var_poll_delay,
+                                               time_format=True)
+                                           )
+        self.poll_delay_scale.pack(padx=16, pady=(2, 16), fill='x', expand=True, anchor='nw')
+        self.poll_delay_scale.set(settings["poll_delay"])
+
+        #Monitors label and checkbuttons
+        self.monitors_frame = tk.Frame(self.popups_settings_frame)
+        self.monitors_frame.pack(fill='both', expand=True)
+
+        self.monitors_label = tk.Label(self.monitors_frame, text="Monitors")
+        self.monitors_label.pack(padx=16, pady=(16, 2), anchor='nw')
+
+        self.checkbutton_list_monitors: list = []
+        self.monitors_checkbuttons: list = []
+        self.monitors_checkbutton_frame = tk.Frame(self.monitors_frame)
+        try:
+            monitors_list: list = get_monitors()
+        except Exception as err:
+            logging.error(repr(err))
+            sys.exit()
+        for index, screen in enumerate(monitors_list):
+            try:
+                self.checkbutton_list_monitors.append(tk.BooleanVar(value=settings["monitors"][index]))
+            except IndexError:
+                self.checkbutton_list_monitors.append(tk.BooleanVar(value=True))
+            self.monitors_checkbutton_frame.columnconfigure(index, weight=1, uniform="group1")
+            self.monitors_checkbuttons.append(tk.Checkbutton(self.monitors_checkbutton_frame,
+                                                             text=str(screen).split('name=')[1].split(',')[0].replace("'", ''),
+                                                             variable=self.checkbutton_list_monitors[index],
+                                                             command=self.set_monitors))
+            self.monitors_checkbuttons[index].grid(row=0, column=index, sticky='nws', padx=4, pady=(2, 8))
+            if self.checkbutton_list_monitors[index].get():
+                self.monitors_checkbuttons[index].select()
+            else:
+                self.monitors_checkbuttons[index].deselect()
+        self.monitors_checkbutton_frame.pack(padx=12, fill='both', expand=True)
+        self.set_monitors()
+
         #Time limit label and scale
-        self.time_limit_frame = tk.Frame(self.root)
+        self.time_limit_frame = tk.Frame(self.popups_settings_frame)
         self.time_limit_frame.pack(fill='both', expand=True)
 
         self.time_limit_label = tk.Label(self.time_limit_frame)
         self.time_limit_label.pack(padx=(16, 4), pady=(8, 2), anchor='nw')
-        if not settings["auto_close"]:
-            self.time_limit_label.config(text="Pop-up time limit: None")
+        if not settings["time_limit"]:
+            self.time_limit_label.config(text="Time limit: None")
 
         self.time_limit_scale = tk.Scale(self.time_limit_frame,
                                          from_=0, to=300,
@@ -155,10 +236,10 @@ class MainGUI:
             self.play_video_checkbutton.select()
 
         #Pop up size label and scale
-        self.popup_size_frame = tk.Frame(self.root)
+        self.popup_size_frame = tk.Frame(self.popups_settings_frame)
         self.popup_size_frame.pack(fill='both', expand=True)
 
-        self.popup_size_label = tk.Label(self.popup_size_frame)
+        self.popup_size_label = tk.Label(self.popup_size_frame, text="Maximum size: 10%")
         self.popup_size_label.pack(padx=(16, 4), pady=(8, 2), anchor='nw')
 
         self.popup_size_scale = tk.Scale(self.popup_size_frame,
@@ -177,10 +258,11 @@ class MainGUI:
                                                command=self.set_fullscreen)
         self.fullscreen_checkbutton.pack(padx=(4, 16), pady=(2, 8), side='right', anchor='nw')
         if settings["fullscreen"]:
+            self.popup_size_label.config(text="Maximum size: Fullscreen")
             self.fullscreen_checkbutton.select()
 
         #Volume options grid
-        self.options_frame = tk.Frame(self.root)
+        self.options_frame = tk.Frame(self.popups_settings_frame)
         self.options_frame.columnconfigure(0, weight=1, uniform="group1")
         self.options_frame.columnconfigure(1, weight=1, uniform="group1")
 
@@ -188,7 +270,7 @@ class MainGUI:
         self.notif_volume_frame = tk.Frame(self.options_frame)
         self.notif_volume_frame.grid(row=0, column=0, sticky='news')
 
-        self.notif_volume_label = tk.Label(self.notif_volume_frame)
+        self.notif_volume_label = tk.Label(self.notif_volume_frame, text="Notification volume: 0%")
         self.notif_volume_label.pack(padx=(16, 4), pady=(8, 2), anchor='nw')
 
         self.scale_var_notif_volume = tk.IntVar()
@@ -205,14 +287,14 @@ class MainGUI:
                                                'notif_volume',
                                                self.scale_var_notif_volume)
                                            )
-        self.notif_volume_scale.pack(padx=(16, 4), pady=(2, 8), fill='x', expand=True, anchor='nw')
+        self.notif_volume_scale.pack(padx=(16, 4), pady=(2, 16), fill='x', expand=True, anchor='nw')
         self.notif_volume_scale.set(settings["notif_volume"])
 
         #Video volume label and scale
         self.video_volume_frame = tk.Frame(self.options_frame)
         self.video_volume_frame.grid(row=0, column=1, sticky='news')
 
-        self.video_volume_label = tk.Label(self.video_volume_frame)
+        self.video_volume_label = tk.Label(self.video_volume_frame, text="Video volume: 0%")
         self.video_volume_label.pack(padx=(4, 16), pady=(8, 2), anchor='nw')
 
         self.scale_var_video_volume = tk.IntVar()
@@ -229,7 +311,7 @@ class MainGUI:
                                                'video_volume',
                                                self.scale_var_video_volume)
                                            )
-        self.video_volume_scale.pack(padx=(4, 16), pady=(2, 8), fill='x', expand=True, anchor='nw')
+        self.video_volume_scale.pack(padx=(4, 16), pady=(2, 16), fill='x', expand=True, anchor='nw')
         self.video_volume_scale.set(settings["video_volume"])
 
         self.options_frame.pack(fill='both', expand=True)
@@ -261,8 +343,9 @@ class MainGUI:
 
         self.button_frame.pack(fill='x', expand=True, anchor='sw', side='bottom')
 
-        self.root.protocol('WM_DELETE_WINDOW', partial(self.hide_window, True))
+        self.root.protocol('WM_DELETE_WINDOW', partial(self.hide_window, close=True))
 
+        self.app_image = Image.open(f'{self.app_path}/assets/icon.png')
         self.create_tray_icon()
         self.apply_menu_theme()
 
@@ -271,6 +354,9 @@ class MainGUI:
             self.gpu_check()
 
         self.root.tk.mainloop()
+
+    def set_menu_tab(self, event: tk.Event) -> None:
+        write_setting(self.settings_path, 'Settings', 'menu_tab', self.notebook.index("current"))
 
     def set_link_id(self, event: tk.Event | None = None) -> bool:
         try:
@@ -303,28 +389,55 @@ class MainGUI:
         self.save_path_entry.pack(padx=16, pady=(2, 8), fill='x')
         return saved
 
+    def set_monitors(self) -> None:
+        monitors: list = []
+        selected: bool = False
+        for checkbutton_var in self.checkbutton_list_monitors:
+            monitors.append(checkbutton_var.get())
+            if checkbutton_var.get():
+                selected = True
+        if not selected:
+            try:
+                exit_process(self.error_window)
+            except AttributeError:
+                pass
+            self.error_window = multiprocessing.Process(target=partial(
+                                                            message_window,
+                                                            "VisorPop — Error",
+                                                            "At least one monitor must be enabled.",
+                                                            self.font,
+                                                            self.color),
+                                                            name="error window",
+                                                            daemon=True
+                                                        )
+            self.error_window.start()
+            for index, checkbutton in enumerate(self.monitors_checkbuttons):
+                if index == 0:
+                    self.monitors_checkbuttons[index].select()
+                else:
+                    self.monitors_checkbuttons[index].deselect()
+            monitors[0] = True
+        write_setting(self.settings_path, 'Settings', 'monitors', monitors)
+
     def set_time_limit(self, event: tk.Event) -> None:
-        if self.time_limit_scale.get() == 0:
-            self.time_limit_label.config(text="Pop-up time limit: None")
-            auto_close: str = "False"
+        if not self.time_limit_scale.get():
+            self.time_limit_label.config(text="Time limit: None")
         else:
-            self.time_limit_label.config(text=f"Pop-up time limit: {int(self.time_limit_scale.get() / 60)}:{abs((int(self.time_limit_scale.get() / 60) * 60) - self.time_limit_scale.get()):02d}")
-            auto_close: str = "True"
+            self.time_limit_label.config(text=f"Time limit: {int(self.time_limit_scale.get() / 60)}:{abs((int(self.time_limit_scale.get() / 60) * 60) - self.time_limit_scale.get()):02d}")
         write_setting(self.settings_path, 'Settings', 'time_limit', self.time_limit_scale.get())
-        write_setting(self.settings_path, 'Settings', 'auto_close', auto_close)
 
     def set_popup_size(self, event: tk.Event) -> None:
         if self.checkbutton_var_fullscreen.get():
-            self.popup_size_label.config(text="Max pop-up size: Fullscreen")
+            self.popup_size_label.config(text="Maximum size: Fullscreen")
         else:
-            self.popup_size_label.config(text=f"Max pop-up size: {self.popup_size_scale.get()}%")
+            self.popup_size_label.config(text=f"Maximum size: {self.popup_size_scale.get()}%")
         write_setting(self.settings_path, 'Settings', 'popup_size', self.popup_size_scale.get())
 
     def set_fullscreen(self) -> None:
         if self.checkbutton_var_fullscreen.get():
-            self.popup_size_label.config(text="Max pop-up size: Fullscreen")
+            self.popup_size_label.config(text="Maximum size: Fullscreen")
         else:
-            self.popup_size_label.config(text=f"Max pop-up size: {self.popup_size_scale.get()}%")
+            self.popup_size_label.config(text=f"Maximum size: {self.popup_size_scale.get()}%")
         write_setting(self.settings_path, 'Settings', 'fullscreen', self.checkbutton_var_fullscreen.get())
 
     def reset_entry(self, entry: tk.Entry, message: str, setting: str) -> None:
@@ -337,7 +450,7 @@ class MainGUI:
                                                         message_window,
                                                         "VisorPop — Error",
                                                         f'"{entry.get()}" {message}.',
-                                                        self.font["small"],
+                                                        self.font,
                                                         self.color),
                                                         name="error window",
                                                         daemon=True
@@ -349,8 +462,11 @@ class MainGUI:
     def set_checkbutton_var(self, setting: str, var: tk.BooleanVar) -> None:
         write_setting(self.settings_path, 'Settings', setting, var.get())
 
-    def set_scale_var(self, label: tk.Label, text: str, setting: str, var: tk.IntVar, event: tk.Event) -> None:
-        label.config(text=f"{text}: {var.get()}%")
+    def set_scale_var(self, label: tk.Label, text: str, setting: str, var: tk.IntVar, event: tk.Event, time_format: bool = False) -> None:
+        if time_format:
+            label.config(text=f"{text}: {int(var.get() / 60)}:{abs((int(var.get() / 60) * 60) - var.get()):02d}")
+        else:
+            label.config(text=f"{text}: {var.get()}%")
         write_setting(self.settings_path, 'Settings', setting, var.get())
 
     def start_stop_popup(self) -> None:
@@ -378,19 +494,19 @@ class MainGUI:
             exit_process(self.reply_menu)
         except AttributeError:
             pass
-        try:
-            exit_process(self.error_window)
-        except AttributeError:
-            pass
         if not self.set_link_id():
             return
         self.set_api_key()
         if self.api_key_entry.get() == "":
+            try:
+                exit_process(self.error_window)
+            except AttributeError:
+                pass
             self.error_window = multiprocessing.Process(target=partial(
                                                             message_window,
                                                             "VisorPop — Error",
                                                             "An API key is required to send replies.",
-                                                            self.font["small"],
+                                                            self.font,
                                                             self.color),
                                                             name="error window",
                                                             daemon=True
@@ -437,6 +553,21 @@ class MainGUI:
         tray_icon = pystray.Icon("VisorPop", self.app_image, "VisorPop", menu)
         threading.Thread(target=tray_icon.run, daemon=True).start()
 
+    def apply_menu_theme(self) -> None:
+        for widget0 in self.root.children:
+            widget0 = apply_widget_theme(widget0, self.root, self.font, self.color)
+            for widget1 in widget0.children:
+                widget1 = apply_widget_theme(widget1, widget0, self.font, self.color)
+                for widget2 in widget1.children:
+                    widget2 = apply_widget_theme(widget2, widget1, self.font, self.color)
+                    for widget3 in widget2.children:
+                        widget3 = apply_widget_theme(widget3, widget2, self.font, self.color)
+                        for widget4 in widget3.children:
+                            apply_widget_theme(widget4, widget3, self.font, self.color)
+        self.separator0.config(bg=self.color["border"])
+        self.separator1.config(bg=self.color["border"])
+        self.download_checkbutton.config(font=self.font["large"])
+
     def gpu_check(self) -> None:
         try:
             check = mpv.MPV(gpu_context=GPU_CONTEXT)
@@ -446,73 +577,14 @@ class MainGUI:
             warning_window = multiprocessing.Process(target=partial(
                                                          message_window,
                                                          "VisorPop — Warning",
-                                                         "Failed to set GPU context!\nCPU will be used to process media instead.\nIt is recommended to use a Walltaker link with animations disabled to prevent high CPU usage.",
-                                                         self.font["small"],
+                                                         "Failed to set GPU context! CPU will be used to process media instead.\nIt is recommended to use a Walltaker link with animations disabled to prevent high CPU usage.",
+                                                         self.font,
                                                          self.color),
                                                          daemon=True
                                                      )
             warning_window.start()
             warning_window.join()
             warning_window.close()
-
-    def apply_menu_theme(self) -> None:
-        self.root.config(bg=self.color["bg_main"],
-                         highlightbackground=self.color["border"],
-                         highlightcolor=self.color["border"],
-                         highlightthickness=4)
-        for frame in self.root.children:
-            frame = self.root.nametowidget(frame)
-            frame.config(bg=self.color["bg_main"])
-            for widget in frame.children:
-                widget = frame.nametowidget(widget)
-                match widget.winfo_class():
-                    case 'Label':
-                        widget.config(font=self.font["large"],
-                                      fg=self.color["text_main"],
-                                      bg=self.color["bg_main"])
-                    case 'Entry':
-                        widget.config(font=self.font["entry"],
-                                      fg=self.color["text_main"],
-                                      bg=self.color["bg_widget"],
-                                      insertbackground=self.color["text_main"],
-                                      highlightbackground=self.color["border"],
-                                      highlightcolor=self.color["text_main"],
-                                      highlightthickness=1)
-                    case 'Checkbutton':
-                        widget.config(font=self.font["small"],
-                                      fg=self.color["text_main"],
-                                      bg=self.color["bg_main"],
-                                      activeforeground=self.color["text_main"],
-                                      activebackground=self.color["bg_hover"],
-                                      selectcolor=self.color["bg_widget"],
-                                      highlightthickness=0)
-                    case 'Scale':
-                        widget.config(bg=self.color["bg_main"],
-                                      activebackground=self.color["bg_hover"],
-                                      troughcolor=self.color["bg_scale"],
-                                      highlightthickness=0)
-                    case 'Button':
-                        widget.config(font=self.font["small"],
-                                      fg=self.color["text_main"],
-                                      bg=self.color["bg_button"],
-                                      activeforeground=self.color["text_main"],
-                                      activebackground=self.color["bg_button_hover"],
-                                      highlightbackground=self.color["border"])
-                    case 'Frame':
-                        widget.config(bg=self.color["bg_main"])
-                        for item in widget.children:
-                            item = widget.nametowidget(item)
-                            match item.winfo_class():
-                                case 'Label':
-                                    item.config(font=self.font["large"],
-                                                fg=self.color["text_main"],
-                                                bg=self.color["bg_main"])
-                                case 'Scale':
-                                    item.config(bg=self.color["bg_main"],
-                                                activebackground=self.color["bg_hover"],
-                                                troughcolor=self.color["bg_scale"],
-                                                highlightthickness=0)
-        self.download_checkbutton.config(font=self.font["large"])
 
 def update_entry_text(color: str, entry: tk.Entry, label: tk.Label, event: tk.Event) -> None:
     if event.char != "" and event.state in [0, 1, 2, 3, 16, 17, 18, 19] and not event.keysym in ['Escape', 'Tab'] or event.keysym in ['BackSpace', 'Insert', 'Delete'] or event.char in ['\x17', '\x14', '\x19', '\x04', '\x08', '\x0b', '\x18', '\x16']:

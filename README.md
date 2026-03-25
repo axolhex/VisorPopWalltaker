@@ -1,6 +1,6 @@
 # VisorPop
 
-![Gif of VisorPop running on Windows](readme-images/1.0.1_windows.gif)
+![Gif of VisorPop running on Windows](readme-images/1.0.2_windows.gif)
 
 <https://github.com/axolhex/VisorPopWalltaker>
 
@@ -15,7 +15,7 @@ This application connects to the 18+ website walltaker.joi.how and should **only
 
 ### Windows
 
-Download and extract VisorPopWindows.v1.0.1.zip from the [releases page](https://github.com/axolhex/VisorPopWalltaker/releases).
+Download and extract VisorPopWindows.v1.0.2.zip from the [releases page](https://github.com/axolhex/VisorPopWalltaker/releases).
 
 If you encounter the error "Failed to load Python DLL", you will also need to download and install the Microslop Visual C++ Redistributable:<br>
 <https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-180#latest-supported-redistributable-version>
@@ -50,7 +50,7 @@ If you are using GNOME, you will also need gnome-shell-extension-appindicator if
 `sudo zypper in gnome-shell-extension-appindicator`<br>
 `gnome-extensions enable appindicatorsupport@rgcjonas.gmail.com`
 
-Download and extract VisorPopLinux.v1.0.1.zip from the [releases page](https://github.com/axolhex/VisorPopWalltaker/releases).
+Download and extract VisorPopLinux.v1.0.2.zip from the [releases page](https://github.com/axolhex/VisorPopWalltaker/releases).
 
 Make the VisorPop script executable with: `chmod +x VisorPop.sh`
 
@@ -81,8 +81,6 @@ Use the Reply button on either the main menu or tray icon to reply to the last p
 ## Known Issues
 
 - Pop-up windows interfere with some fullscreen applications.
-- When using multiple monitors, fullscreen pop-ups cover all screens instead of just one.
-- When using multiple monitors, pop-up windows are sometimes larger than expected.
 - On some Linux distributions, mpv's gpu context can not be set to x11 in order to properly embed the player. The video output is set to x11 as a fallback, but this significantly reduces performance.
 
 ## License

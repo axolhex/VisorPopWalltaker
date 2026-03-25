@@ -78,6 +78,11 @@ License: Apache-2.0
 Source: https://github.com/psf/requests
 License file(s): licenses/requests/LICENSE licenses/requests/NOTICE licenses/requests/AUTHORS.rst 
 
+Title: screeninfo
+License: MIT
+Source: https://github.com/rr-/screeninfo
+License file(s): licenses/screeninfo/LICENSE.md 
+
 Title: six
 License: MIT
 Source: https://github.com/benjaminp/six
@@ -224,9 +229,9 @@ Source: https://github.com/google/brotli
 License file(s): licenses/brotli/LICENSE 
 
 Title: highway
-License: Apache-2.0
+License: Multiple-licenses
 Source: https://github.com/google/highway
-License file(s): licenses/highway/LICENSE-2.0.txt 
+License file(s): licenses/highway/LICENSE 
 
 Title: libmodplug
 License: Public-domain

@@ -15,6 +15,7 @@
 - Pressing enter in reply menu's entry will now send the reply
 - Fixed an issue that caused reply menu to crash when opening certain posts
 - Fixed an issue that caused text to not appear when a slider was set to it's lowest value
+- Fixed an issue that caused video playback to desync on some displays
 
 # Version 1.0.1
 

@@ -70,7 +70,7 @@ class PopupPlayer(tk.Tk):
                               loop_file=loop,
                               hwdec='auto',
                               profile='fast',
-                              video_sync='display-resample',
+                              video_sync='audio',
                               msg_level='all=error',
                               config=False,
                               input_default_bindings=False,
